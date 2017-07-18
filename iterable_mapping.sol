@@ -1,5 +1,6 @@
 /// @dev Models a uint -> uint mapping where it is possible to iterate over all keys. 
 /// https://github.com/ethereum/dapp-bin/blob/master/library/iterable_mapping.sol
+/// http://solidity.readthedocs.io/en/latest/types.html#mappings
 
 library IterableMapping
 {
