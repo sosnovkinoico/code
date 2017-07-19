@@ -40,6 +40,12 @@ library IterableBalances
   {
     return self.data[key].value;
   }
+  function setValue(itmap storage self, address key, uint256 _value) returns (bool)
+  {
+    if (self.data[key].keyIndex < 0) return false;
+    self.data[key].value = _value;
+    return true;
+  }
   function contains(itmap storage self, uint key) returns (bool)
   {
     return self.data[key].keyIndex > 0;
