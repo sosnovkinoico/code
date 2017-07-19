@@ -2,17 +2,17 @@
 /// https://github.com/ethereum/dapp-bin/blob/master/library/iterable_mapping.sol
 /// http://solidity.readthedocs.io/en/latest/types.html#mappings
 
-library IterableMapping
+library IterableBalances
 {
   struct itmap
   {
-    mapping(uint => IndexValue) data;
+    mapping(address => uint) balances;
     KeyFlag[] keys;
     uint size;
   }
-  struct IndexValue { uint keyIndex; uint value; }
+  struct balance { address adress; uint value; }
   struct KeyFlag { uint key; bool deleted; }
-  function insert(itmap storage self, uint key, uint value) returns (bool replaced)
+  function insert(itmap storage self, address key, uint value) returns (bool replaced)
   {
     uint keyIndex = self.data[key].keyIndex;
     self.data[key].value = value;
@@ -27,7 +27,7 @@ library IterableMapping
       return false;
     }
   }
-  function remove(itmap storage self, uint key) returns (bool success)
+  function remove(itmap storage self, address key) returns (bool success)
   {
     uint keyIndex = self.data[key].keyIndex;
     if (keyIndex == 0)
@@ -35,6 +35,10 @@ library IterableMapping
     delete self.data[key];
     self.keys[keyIndex - 1].deleted = true;
     self.size --;
+  }
+  function getValue(itmap storage self, address key) returns (uint)
+  {
+    return self.data[key].value;
   }
   function contains(itmap storage self, uint key) returns (bool)
   {
@@ -55,7 +59,7 @@ library IterableMapping
       keyIndex++;
     return keyIndex;
   }
-  function iterate_get(itmap storage self, uint keyIndex) returns (uint key, uint value)
+  function iterate_get(itmap storage self, uint keyIndex) returns (address key, uint value)
   {
     key = self.keys[keyIndex].key;
     value = self.data[key].value;
