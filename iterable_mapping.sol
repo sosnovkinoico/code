@@ -6,13 +6,13 @@ library IterableBalances
 {
   struct itmap
   {
-    mapping(address => uint) balances;
+    mapping(address => uint256) balances;
     KeyFlag[] keys;
     uint size;
   }
-  struct balance { address adress; uint value; }
+  struct balance { address adress; uint256 value; }
   struct KeyFlag { uint key; bool deleted; }
-  function insert(itmap storage self, address key, uint value) returns (bool replaced)
+  function insert(itmap storage self, address key, uint256 value) returns (bool replaced)
   {
     uint keyIndex = self.data[key].keyIndex;
     self.data[key].value = value;
@@ -36,7 +36,7 @@ library IterableBalances
     self.keys[keyIndex - 1].deleted = true;
     self.size --;
   }
-  function getValue(itmap storage self, address key) returns (uint)
+  function getValue(itmap storage self, address key) returns (uint256)
   {
     return self.data[key].value;
   }
@@ -59,7 +59,7 @@ library IterableBalances
       keyIndex++;
     return keyIndex;
   }
-  function iterate_get(itmap storage self, uint keyIndex) returns (address key, uint value)
+  function iterate_get(itmap storage self, uint keyIndex) returns (address key, uint256 value)
   {
     key = self.keys[keyIndex].key;
     value = self.data[key].value;
