@@ -12,7 +12,6 @@ library IterableBalances
   }
   
   struct IndexValue { uint keyIndex; uint value; }
-  struct balance { address adress; uint256 value; }
   struct KeyFlag { uint key; bool deleted; }
   
   function insert(itmap storage self, address key, uint256 value) returns (bool replaced) {
