@@ -2,7 +2,7 @@
 /// https://github.com/ethereum/dapp-bin/blob/master/library/iterable_mapping.sol
 /// http://solidity.readthedocs.io/en/latest/types.html#mappings
 
-library IterableBalances
+library IterableMappings
 {
   struct itmap
   {
