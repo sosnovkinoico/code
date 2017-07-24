@@ -41,10 +41,11 @@ contract snkCoin is ERC20{
 	}
 	
 	modifier costs(uint _amount) {
-        require(msg.value >= _amount);
-        _;
-        if (msg.value > _amount)
-            msg.sender.send(msg.value - _amount);
+    
+        if (msg.value >= _amount)
+            {
+                _;
+            }
     }
 
 	function totalSupply() constant returns (uint256) {
@@ -128,10 +129,11 @@ contract snkCoin is ERC20{
 		for (var i = IterableBalances.iterate_start(balances); IterableBalances.iterate_valid(balances, i); i = IterableBalances.iterate_next(balances, i))
 			{
 				var (tokenHolder, value) = IterableBalances.iterate_get(balances, i);
-				
+				var _value = value;
+				_value++;
 				if (approvedDividends[tokenHolder] != 0)
 				{
-					tokenHolder.send(approvedDividends[tokenHolder]);
+					tokenHolder.transfer(approvedDividends[tokenHolder]);
 					approvedDividends[tokenHolder] = 0;
 				}
 			}
