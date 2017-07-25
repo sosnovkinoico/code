@@ -1,5 +1,6 @@
+pragma solidity ^0.4.13;
 /// Slightly modified library, taken from https://github.com/ethereum/dapp-bin/blob/master/library/iterable_mapping.sol
-/// nagor@academ.org
+/// nagor[at]academ.org
 /// @dev Models a uint -> uint mapping where it is possible to iterate over all keys. 
 /// http://solidity.readthedocs.io/en/latest/types.html#mappings
 
@@ -12,7 +13,7 @@ library voteUtils
   }
   
   struct IndexValue { uint keyIndex; bool[] value; }
-  struct KeyFlag { uint key; bool deleted; }
+  struct KeyFlag { address key; bool deleted; }
   
   function insert(itmap storage self, address key, bool[] value) returns (bool replaced) {
     uint keyIndex = self.votes[key].keyIndex;
@@ -46,11 +47,7 @@ library voteUtils
     self.votes[key].value = _value;
     return true;
   }
-  
-  function contains(itmap storage self, uint key) returns (bool) {
-    return self.votes[key].keyIndex > 0;
-  }
-  
+
   function iterate_start(itmap storage self) returns (uint keyIndex) {
     return iterate_next(self, uint(-1));
   }
