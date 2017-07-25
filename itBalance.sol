@@ -1,9 +1,10 @@
+pragma solidity ^0.4.13;
 /// Slightly modified library, taken from https://github.com/ethereum/dapp-bin/blob/master/library/iterable_mapping.sol
-/// nagor@academ.org
+/// nagor[at]academ.org
 /// @dev Models a uint -> uint mapping where it is possible to iterate over all keys. 
 /// http://solidity.readthedocs.io/en/latest/types.html#mappings
 
-library IterableBalances
+library itBalance
 {
   struct itmap {
     mapping(address => IndexValue) balances;
@@ -12,9 +13,9 @@ library IterableBalances
   }
   
   struct IndexValue { uint keyIndex; uint value; }
-  struct KeyFlag { uint key; bool deleted; }
+  struct KeyFlag { address key; bool deleted; }
   
-  function insert(itmap storage self, address key, uint256 value) returns (bool replaced) {
+  function insert(itmap storage self, address key, uint value) returns (bool replaced) {
     uint keyIndex = self.balances[key].keyIndex;
     self.balances[key].value = value;
     if (keyIndex > 0)
@@ -47,13 +48,14 @@ library IterableBalances
     return true;
   }
   
-  function contains(itmap storage self, uint key) returns (bool) {
-    return self.balances[key].keyIndex > 0;
+  function containsKey(itmap storage self, address key) returns (bool) {
+    return self.balances[key].value > 0;
   }
   
   function iterate_start(itmap storage self) returns (uint keyIndex) {
     return iterate_next(self, uint(-1));
   }
+  
   function iterate_valid(itmap storage self, uint keyIndex) returns (bool) {
     return keyIndex < self.keys.length;
   }
@@ -65,8 +67,7 @@ library IterableBalances
     return keyIndex;
   }
   
-  function iterate_get(itmap storage self, uint keyIndex) returns (address key, uint256 value) {
+  function iterate_get(itmap storage self, uint keyIndex) returns (address key) {
     key = self.keys[keyIndex].key;
-    value = self.balances[key].value;
   }
 }
